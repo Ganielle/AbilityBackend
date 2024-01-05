@@ -1,6 +1,6 @@
 const Users = require("../modules/Users")
 
-exports.register = (req, res) => {
+exports.register = async (req, res) => {
     const { username, fullname, email, password } = req.body
 
     if (username == ""){
@@ -18,10 +18,18 @@ exports.register = (req, res) => {
     if (password == ""){
         return res.json({ message: "failed", data: "Please input password" })
     }
-
-    Users.create(req.body)
-    .then(() => {
-        return res.json({message: "success"})
+    
+    Users.findOne({$or: [{ username: username, }, {fullname: fullname}, {email: email}]})
+    .then(data => {
+        if (data){
+            return res.status(400).json({ message: "bad-request", data: "Existing user! Please login your account!" })
+        }
+        
+        Users.create(req.body)
+        .then(() => {
+            return res.json({message: "success"})
+        })
+        .catch(error => res.status(400).json({ message: "bad-request", data: error.message }))
     })
     .catch(error => res.status(400).json({ message: "bad-request", data: error.message }))
 }
