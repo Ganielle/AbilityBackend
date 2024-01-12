@@ -15,7 +15,7 @@ exports.getscores = (req, res) => {
         data.forEach(dataas => {
             const { topic, subtopic, level, score } = dataas
 
-            finaldata[`${topic}${subtopic}`] = {
+            finaldata[`${topic}${subtopic}${level}`] = {
                 level: level,
                 score: score,
                 topic: topic,
