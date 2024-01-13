@@ -26,7 +26,11 @@ exports.getscores = (req, res) => {
                 identifyingemotions: {},
                 matchfacesofexpressionstoemptyfaces: {}
             },
-            people: {}
+            people: {
+                professionalsinthecommunity: {},
+                roleinthecommunity: {},
+                family: {}
+            }
         }
 
         data.forEach(dataas => {
