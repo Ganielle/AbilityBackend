@@ -10,19 +10,34 @@ exports.getscores = (req, res) => {
             return res.json({message: "noitem"})
         }
 
-        const finaldata = {}
+        const finaldata = {
+            speech: {
+                alphabet: {},
+                soundstowords: {},
+                matchwordtopictures: {}
+            },
+            communication: {
+                actionsshowinglove: {},
+                actionsshowingrespect: {},
+                askingpermission: {}
+            },
+            emotions: {
+                matchingpicturesofemotions: {},
+                identifyingemotions: {},
+                matchfacesofexpressionstoemptyfaces: {}
+            },
+            people: {}
+        }
 
         data.forEach(dataas => {
             const { topic, subtopic, level, score } = dataas
 
-            finaldata[`${topic}${subtopic}${level}`] = {
-                level: level,
-                score: score,
-                topic: topic,
-                subtopic: subtopic
+            finaldata[`${topic}`][`${subtopic}`][`${level}`] = {
+                score: score
             }
         })
 
+        console.log(finaldata)
         return res.json({message: "success", data: finaldata})
     })
     .catch(error => res.status(400).json({ message: "bad-request", data: error.message }))
